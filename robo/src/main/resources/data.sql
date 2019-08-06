@@ -1,2 +1,3 @@
 INSERT INTO USUARIO(nome, email, senha) VALUES('Rafael', 'rafael22fs@gmail.com', '0CDEA0920F550D143486F0C4AD76C7F2ADB263E4');
+INSERT INTO USUARIO(nome, email, senha) VALUES('Silvaninha', 'rafael22fs@gmail.com', '0CDEA0920F550D143486F0C4AD76C7F2ADB263E4');
 

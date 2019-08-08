@@ -23,7 +23,6 @@ public class AutenticacaoService implements UserDetailsService {
 		if (usuario.isPresent()) {
 			return usuario.get();
 		}
-		
 		throw new UsernameNotFoundException("Dados inválidos!");
 	}
 

@@ -18,6 +18,7 @@ public class TransacaoVendaController {
     @PostMapping("ativa")
     public ResponseEntity<Object> ativaVenda() {
         if(transacaoVendaService.ativaVenda()){
+            System.out.println("ATIVANDO VENDA");
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();
@@ -27,6 +28,7 @@ public class TransacaoVendaController {
     @PostMapping("desativa")
     public ResponseEntity<Object> desativaVenda() {
         if(transacaoVendaService.desativaVenda()){
+            System.out.println("DESATIVANDO VENDA");
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();

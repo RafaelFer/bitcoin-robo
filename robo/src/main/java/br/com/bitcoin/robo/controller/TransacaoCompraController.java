@@ -19,6 +19,7 @@ public class TransacaoCompraController {
     @PostMapping("ativa")
     public ResponseEntity<Object> ativaCompra() {
         if(transacaoCompraService.ativaCompra()){
+            System.out.println("ATIVANDO COMPRA");
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();
@@ -28,6 +29,7 @@ public class TransacaoCompraController {
     @PostMapping("desativa")
     public ResponseEntity<Object> desativaCompra() {
         if(transacaoCompraService.desativaCompra()){
+            System.out.println("DESATIVANDO COMPRA");
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();

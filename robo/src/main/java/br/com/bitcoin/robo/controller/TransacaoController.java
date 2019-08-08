@@ -1,40 +1,37 @@
 package br.com.bitcoin.robo.controller;
 
-import br.com.bitcoin.robo.modelo.Acao;
-import br.com.bitcoin.robo.repository.AcaoRepository;
+import br.com.bitcoin.robo.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/transacao/compra")
 public class TransacaoController {
 
+
     @Autowired
-    private AcaoRepository acaoRepository;
+    private TransacaoService transacaoService;
 
-    private static Long COMPRA = 1L;
-    private static Long VENDA = 2L;
-
-
-    @GetMapping("/compra/ativa")
-    public ResponseEntity<Object> ativandoCompra() {
-        Acao acao = acaoRepository.findById(COMPRA).get();
-        acao.setAtivo(Boolean.TRUE);
-        acaoRepository.save(acao);
-        return ResponseEntity.ok("Ativa Compras!");
+    @GetMapping("ativa")
+    public ResponseEntity<Object> ativaCompra() {
+        if(transacaoService.ativaCompra()){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/compra/desativa")
+    @GetMapping("desativa")
     public ResponseEntity<Object> desativaCompra() {
-        Acao acao = acaoRepository.findById(COMPRA).get();
-        acao.setAtivo(Boolean.FALSE);
-        acaoRepository.save(acao);
-        return ResponseEntity.ok("Desativa Compras!");
+        if(transacaoService.desativaCompra()){
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

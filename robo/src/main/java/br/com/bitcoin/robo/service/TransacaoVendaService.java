@@ -6,18 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TransacaoService {
+public class TransacaoVendaService {
 
     @Autowired
     private AcaoRepository acaoRepository;
 
-    private static Long COMPRA = 1L;
     private static Long VENDA = 2L;
 
 
-    public boolean ativaCompra(){
+    public boolean ativaVenda(){
         try{
-            Acao acao = acaoRepository.findById(COMPRA).get();
+            Acao acao = acaoRepository.findById(VENDA).get();
             acao.setAtivo(Boolean.TRUE);
             acaoRepository.save(acao);
             return true;
@@ -26,9 +25,9 @@ public class TransacaoService {
         }
     }
 
-    public boolean desativaCompra(){
+    public boolean desativaVenda(){
         try{
-            Acao acao = acaoRepository.findById(COMPRA).get();
+            Acao acao = acaoRepository.findById(VENDA).get();
             acao.setAtivo(Boolean.FALSE);
             acaoRepository.save(acao);
             return true;
@@ -36,7 +35,4 @@ public class TransacaoService {
             return false;
         }
     }
-
-
-
 }

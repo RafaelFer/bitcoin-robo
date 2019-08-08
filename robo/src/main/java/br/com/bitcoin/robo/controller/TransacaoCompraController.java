@@ -1,33 +1,33 @@
 package br.com.bitcoin.robo.controller;
 
-import br.com.bitcoin.robo.service.TransacaoService;
+import br.com.bitcoin.robo.service.TransacaoCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 @RequestMapping("/transacao/compra")
-public class TransacaoController {
+public class TransacaoCompraController {
 
 
     @Autowired
-    private TransacaoService transacaoService;
+    private TransacaoCompraService transacaoCompraService;
 
-    @GetMapping("ativa")
+    @PostMapping("ativa")
     public ResponseEntity<Object> ativaCompra() {
-        if(transacaoService.ativaCompra()){
+        if(transacaoCompraService.ativaCompra()){
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("desativa")
+    @PostMapping("desativa")
     public ResponseEntity<Object> desativaCompra() {
-        if(transacaoService.desativaCompra()){
+        if(transacaoCompraService.desativaCompra()){
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.notFound().build();

@@ -37,6 +37,15 @@ public class TransacaoCompraService {
         }
     }
 
+    public void efetivaCompra(){
+        Acao acao = acaoRepository.findById(COMPRA).get();
+        if(acao.getAtivo()){
+            //Logica para chamar a api
+            System.out.println("disparando compra para MERCADO BITCOIN");
+        }
+    }
+
+
 
 
 }

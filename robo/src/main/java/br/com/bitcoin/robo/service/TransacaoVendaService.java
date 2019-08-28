@@ -35,4 +35,12 @@ public class TransacaoVendaService {
             return false;
         }
     }
+
+    public void efetivaVenda(){
+        Acao acao = acaoRepository.findById(VENDA).get();
+        if(acao.getAtivo()){
+            //Logica para chamar a api
+            System.out.println("disparando VENDA para MERCADO BITCOIN");
+        }
+    }
 }

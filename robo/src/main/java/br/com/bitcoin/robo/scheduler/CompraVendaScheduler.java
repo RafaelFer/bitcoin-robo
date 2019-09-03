@@ -23,17 +23,16 @@ public class CompraVendaScheduler {
 
     @Scheduled(fixedDelay = 5000)
     public void compraACada4Segundos() {
-        transacaoCompraService.efetivaCompra();
+//        transacaoCompraService.efetivaCompra();
     }
 
     @Scheduled(fixedDelay = 4000)
     public void vendeACada4Segundos() {
-        transacaoVendaService.efetivaVenda();
+//        transacaoVendaService.efetivaVenda();
     }
 
     @Scheduled(fixedDelay = 10000)
-    public void ataulizaStatusACada4Segundos()
-    {
+    public void ataulizaStatusACada4Segundos() {
         quantidadeTransacoes++;
     }
 

@@ -75,6 +75,11 @@ public class SaldoController {
         System.out.println("TAPI-MAC: "+tapiMac);
         System.out.println("path > "+urlMercadoBitcoin+path);
 
-        return ResponseEntity.ok(restTemplate.exchange(urlMercadoBitcoin+path, HttpMethod.POST, entity, String.class).getBody());
+
+        String retonro = restTemplate.exchange(urlMercadoBitcoin+path, HttpMethod.POST, entity, String.class).getBody();
+
+        System.out.println(retonro);
+
+        return ResponseEntity.ok(retonro);
     }
 }

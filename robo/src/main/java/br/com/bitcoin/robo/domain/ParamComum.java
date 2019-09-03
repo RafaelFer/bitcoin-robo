@@ -5,11 +5,12 @@ public class ParamComum {
 
 
     String tapiMethod;
+
     String tapiNonce;
 
-    public ParamComum(String tapiMethod, String tapiNonce) {
+    public ParamComum(String tapiMethod) {
         this.tapiMethod = tapiMethod;
-        this.tapiNonce = tapiNonce;
+        this.tapiNonce =  String.valueOf(System.currentTimeMillis());
     }
 
     public void setTapiMethod(String tapiMethod) {
@@ -20,10 +21,19 @@ public class ParamComum {
         this.tapiNonce = tapiNonce;
     }
 
-    public String buildFormatado(){
+    public String buildUrlInteira(){
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("?tapi_method:"+this.tapiMethod+"&tapi_nonce="+tapiNonce);
+        stringBuilder.append("/tapi/v3/?tapi_method="+this.tapiMethod+"&tapi_nonce="+tapiNonce);
+        return stringBuilder.toString();
+    }
+
+    public String buildPath(){
+
+        Long once = System.currentTimeMillis();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("/tapi/v3/?tapi_method="+this.tapiMethod+"&tapi_nonce="+once.toString().substring(8,13));
         return stringBuilder.toString();
     }
 

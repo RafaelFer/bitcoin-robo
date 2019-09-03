@@ -46,27 +46,6 @@ public class SaldoController {
     @GetMapping("/teste")
     public ResponseEntity exemplo() {
 
-//        Métodos da API
-//                ticker
-//        Descrição
-//        Retorna informações com o resumo das últimas 24 horas de negociações.
-//
-//                Resultado
-//        high: Maior preço unitário de negociação das últimas 24 horas.
-//                Tipo: Decimal
-//        low: Menor preço unitário de negociação das últimas 24 horas.
-//                Tipo: Decimal
-//        vol: Quantidade negociada nas últimas 24 horas.
-//                Tipo: Decimal
-//        last: Preço unitário da última negociação.
-//                Tipo: Decimal
-//        buy: Maior preço de oferta de compra das últimas 24 horas.
-//                Tipo: Decimal
-//        sell: Menor preço de oferta de venda das últimas 24 horas.
-//                Tipo: Decimal
-//        date: Data e hora da informação em Era Unix
-//        Tipo: Inteiro
-
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity <String> entity = new HttpEntity<String>(headers);
@@ -78,24 +57,24 @@ public class SaldoController {
     @GetMapping("/infoConta")
     public ResponseEntity infoConta() throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
 
-        ParamComum paramComum = new ParamComum("list_orders", "1");
+        ParamComum paramComum = new ParamComum("list_orders");
 
-        String path = urlMercadoBitcoin+paramComum.buildFormatado();
+        String path = paramComum.buildPath();
 
-        String signature = HmacUtil.calculateHMAC(path.toString(),secret);
+        String tapiMac = HmacUtil.calculateHMAC(path, secret);
 
         HttpHeaders headers = new HttpHeaders();
 
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("TAPI-ID",identificador);
+        headers.set("TAPI-MAC",tapiMac);
 
-        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity <String> entity = new HttpEntity<>(headers);
 
-        HttpEntity <String> entity = new HttpEntity<String>(headers);
+        System.out.println("TAPI-ID: "+identificador);
+        System.out.println("TAPI-MAC: "+tapiMac);
+        System.out.println("path > "+urlMercadoBitcoin+path);
 
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
-        headers.add("TAPI-ID",identificador);
-        headers.add("TAPI-MAC",signature);
-
-        return ResponseEntity.ok(restTemplate.exchange(urlMercadoBitcoin+paramComum.buildFormatado(), HttpMethod.POST, entity, String.class).getBody());
+        return ResponseEntity.ok(restTemplate.exchange(urlMercadoBitcoin+path, HttpMethod.POST, entity, String.class).getBody());
     }
 }

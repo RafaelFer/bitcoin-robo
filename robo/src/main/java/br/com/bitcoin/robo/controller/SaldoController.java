@@ -7,6 +7,8 @@ import br.com.bitcoin.robo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/informacao/")
@@ -57,29 +60,26 @@ public class SaldoController {
     @GetMapping("/infoConta")
     public ResponseEntity infoConta() throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
 
-        ParamComum paramComum = new ParamComum("list_orders");
-
-        String path = paramComum.buildPath();
-
-        String tapiMac = HmacUtil.calculateHMAC(path, secret);
+        String path = new ParamComum("get_account_info").buildPath();
 
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("TAPI-ID",identificador);
-        headers.set("TAPI-MAC",tapiMac);
+        headers.add("TAPI-ID",identificador);
+        headers.add("TAPI-MAC",HmacUtil.calculateHMAC(path, secret));
 
-        HttpEntity <String> entity = new HttpEntity<>(headers);
-
-        System.out.println("TAPI-ID: "+identificador);
-        System.out.println("TAPI-MAC: "+tapiMac);
-        System.out.println("path > "+urlMercadoBitcoin+path);
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        map.add("tapi_method","get_account_info");
+        map.add("tapi_nonce",String.valueOf(1));
 
 
-        String retonro = restTemplate.exchange(urlMercadoBitcoin+path, HttpMethod.POST, entity, String.class).getBody();
 
-        System.out.println(retonro);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
-        return ResponseEntity.ok(retonro);
+        ResponseEntity<String> response = restTemplate.exchange(urlMercadoBitcoin,HttpMethod.POST, request , String.class);
+
+        System.out.println(response.getBody());
+
+        return ResponseEntity.ok(response);
     }
 }

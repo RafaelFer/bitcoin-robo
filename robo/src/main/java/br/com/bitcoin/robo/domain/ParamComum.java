@@ -15,11 +15,10 @@ public class ParamComum {
 
     public String buildPath(){
 
-        Long once = System.currentTimeMillis();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("/tapi/v3/?tapi_method="+this.tapiMethod+"&tapi_nonce="+once);
-
+        stringBuilder.append("tapi/v3/?tapi_method="+this.tapiMethod+"&tapi_nonce="+this.tapiNonce);
         return stringBuilder.toString();
+
     }
 
 
